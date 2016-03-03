@@ -1,6 +1,6 @@
 {
     "name": "apy/datagrid-bundle",
-    "description": "Symfony2 Datagrid Bundle",
+    "description": "Symfony3 Datagrid Bundle",
     "keywords": ["Symfony", "datagrid"],
     "homepage": "https://github.com/Abhoryo/APYDataGridBundle",
     "type": "symfony-bundle",
@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/symfony": "2.*",
+        "symfony/symfony": "3.*",
         "twig/twig": ">=1.5.0"
     },
     "require-dev": {
