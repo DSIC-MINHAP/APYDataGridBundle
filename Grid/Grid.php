@@ -61,9 +61,9 @@ class Grid implements GridInterface
     protected $request;
 
     /**
-     * @var \Symfony\Component\Security\Core\SecurityContext
+     * @var use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
      */
-    protected $securityContext;
+    protected $authorizationChecker;
 
     /**
      * @var string
@@ -307,13 +307,13 @@ class Grid implements GridInterface
         $this->config = $config;
 
         $this->router = $container->get('router');
-        $this->request = $container->get('request');
+        $this->request = $container->get('request_stack')->getCurrentRequest();
         $this->session = $this->request->getSession();
-        $this->securityContext = $container->get('security.context');
+        $this->authorizationChecker = $container->get('security.authorization_checker');
 
         $this->id = $id;
 
-        $this->columns = new Columns($this->securityContext);
+        $this->columns = new Columns($this->authorizationChecker);
 
         $this->routeParameters = $this->request->attributes->all();
         foreach (array_keys($this->routeParameters) as $key) {
@@ -1239,7 +1239,7 @@ class Grid implements GridInterface
      */
     public function addMassAction(MassActionInterface $action)
     {
-        if ($action->getRole() === null || $this->securityContext->isGranted($action->getRole())) {
+        if ($action->getRole() === null || $this->authorizationChecker->isGranted($action->getRole())) {
             $this->massActions[] = $action;
         }
 
@@ -1350,7 +1350,7 @@ class Grid implements GridInterface
      */
     public function addRowAction(RowActionInterface $action)
     {
-        if ($action->getRole() === null || $this->securityContext->isGranted($action->getRole())) {
+        if ($action->getRole() === null || $this->authorizationChecker->isGranted($action->getRole())) {
             $this->rowActions[$action->getColumn()][] = $action;
         }
 
@@ -1411,7 +1411,7 @@ class Grid implements GridInterface
      */
     public function addExport(ExportInterface $export)
     {
-        if ($export->getRole() === null || $this->securityContext->isGranted($export->getRole())) {
+        if ($export->getRole() === null || $this->authorizationChecker->isGranted($export->getRole())) {
             $this->exports[] = $export;
         }
 
