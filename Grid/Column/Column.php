@@ -12,7 +12,7 @@
 
 namespace APY\DataGridBundle\Grid\Column;
 
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use APY\DataGridBundle\Grid\Filter;
 
 abstract class Column
@@ -79,7 +79,7 @@ abstract class Column
     protected $params;
     protected $isSorted = false;
     protected $orderUrl;
-    protected $securityContext;
+    pprotected $authorizationChecker;
     protected $data;
     protected $operatorsVisible;
     protected $operators;
@@ -287,8 +287,8 @@ abstract class Column
     {
         $visible = $isExported && $this->export !== null ? $this->export : $this->visible;
 
-        if ($visible && $this->securityContext !== null && $this->getRole() != null) {
-            return $this->securityContext->isGranted($this->getRole());
+        if ($visible && $this->authorizationChecker !== null && $this->getRole() != null) {
+            return $this->authorizationChecker->isGranted($this->getRole());
         }
 
         return $visible;
@@ -784,12 +784,12 @@ abstract class Column
     /**
      * Internal function
      *
-     * @param $securityContext
+     * @param $authorizationChecker
      * @return $this
      */
-    public function setSecurityContext(SecurityContextInterface $securityContext)
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->securityContext = $securityContext;
+        $this->authorizationChecker = $authorizationChecker;
 
         return $this;
     }
