@@ -79,7 +79,7 @@ abstract class Column
     protected $params;
     protected $isSorted = false;
     protected $orderUrl;
-    pprotected $authorizationChecker;
+    protected $authorizationChecker;
     protected $data;
     protected $operatorsVisible;
     protected $operators;
