@@ -383,6 +383,10 @@ abstract class Source implements DriverInterface
                             $sortedItems[$key] = strtolower($value);
                             $sortType = SORT_STRING;
                             break;
+                        case 'morfos_link':
+                            $sortedItems[$key] = strtolower($value->getLabel());
+                            $sortType = SORT_STRING;
+                            break;
                         case 'datetime':
                         case 'date':
                         case 'time':
